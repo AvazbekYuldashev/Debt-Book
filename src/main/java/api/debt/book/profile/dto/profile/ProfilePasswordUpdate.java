@@ -1,0 +1,14 @@
+package api.debt.book.profile.dto.profile;
+
+import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class ProfilePasswordUpdate {
+    @NotBlank(message = "Wrong old password ")
+    private String oldPassword;
+    @NotBlank(message = "Wrong new password")
+    private String newPassword;
+}
