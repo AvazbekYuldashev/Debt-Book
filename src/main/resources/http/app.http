@@ -1,10 +1,10 @@
 ### Create ADMIN
-GET http://localhost:8080/auth/7d7a11c1364abd11509f29bcd158ec8b
+GET http://202.181.188.35:8080/auth/7d7a11c1364abd11509f29bcd158ec8b
 Content-Type: application/json
 
 
 ### Login
-POST http://localhost:8080/auth/login
+POST http://202.181.188.35:8080/auth/login
 Content-Type: application/json
 
 {
