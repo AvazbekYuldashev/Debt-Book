@@ -1,0 +1,32 @@
+### Create
+POST http://localhost:8080/core/resume
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJHcmVlZCIsInJvbGUiOiJST0xFX0FETUlOIiwiaWQiOiI0MDBmNjMyNi0xYmY0LTQ5OTYtYTU5Mi1mNjM1YTdlZTk2YTUiLCJpYXQiOjE3NjA2NDQxMzcsImV4cCI6MTc2MDczMDUzN30.7Rqq5O7fnOzAc-yPeDfEr58P4rpJm-p6Sdfe8DFONotyE92w3XDfhw8QwjdceMr5JIbvn8UX1DwL_imRoEcG1A
+
+{
+  "name" : "avazbek",
+  "surname" : "yuldashev",
+  "address": "ANDIJON_VILOYATI",
+  "phoneNumber": "+998902597891",
+  "position": "Backend Engineer",
+  "desiredSalary": "50/hour",
+  "email": "avazbek.yuldashev3003@gmail.com",
+  "employmentType": "FULL_TIME",
+  "birthDate": "2004-03-30"
+}
+
+### Filter
+POST http://localhost:8080/core/resume/filter
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJHcmVlZCIsInJvbGUiOiJST0xFX0FETUlOIiwiaWQiOiI0MDBmNjMyNi0xYmY0LTQ5OTYtYTU5Mi1mNjM1YTdlZTk2YTUiLCJpYXQiOjE3NjA2NDQxMzcsImV4cCI6MTc2MDczMDUzN30.7Rqq5O7fnOzAc-yPeDfEr58P4rpJm-p6Sdfe8DFONotyE92w3XDfhw8QwjdceMr5JIbvn8UX1DwL_imRoEcG1A
+
+{
+  "name" : "avazbek",
+  "surname" : "yuldashev",
+  "address": "ANDIJON_VILOYATI",
+  "phoneNumber": "+998902597891",
+  "position": "Backend Engineer",
+  "desiredSalary": "50/hour",
+  "email": "avazbek.yuldashev3003@gmail.com",
+  "employmentType": "FULL_TIME"
+}
