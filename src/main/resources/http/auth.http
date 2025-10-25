@@ -1,6 +1,20 @@
 ### Registration
 POST http://202.181.188.35:8080/auth/registration
 Content-Type: application/json
+Accept-Language: UZ
+
+{
+  "name": "Avazbek",
+  "surname": "Yuldashev",
+  "username": "telegram.vzlom@gmail.com",
+  "password": "12345"
+}
+
+
+### Registration
+POST http://localhost:8080/auth/registration
+Content-Type: application/json
+Accept-Language: UZ
 
 {
   "name": "Avazbek",
