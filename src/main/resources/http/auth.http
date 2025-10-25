@@ -1,5 +1,5 @@
 ### Registration
-POST http://localhost:8080/auth/registration
+POST http://202.181.188.35:8080/auth/registration
 Content-Type: application/json
 
 {
