@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Entity
@@ -31,7 +34,7 @@ public class CreditorEntity {
     @Column(name = "email")
     private String email;
     @Column(name = "birth_date")
-    private String birthDate;
+    private LocalDate birthDate;
 
     @Column(name = "profile_id")
     private String profileId;
@@ -39,7 +42,7 @@ public class CreditorEntity {
     @Column(name = "visible")
     private Boolean visible;
     @Column(name = "created_date")
-    private String createdDate;
+    private LocalDateTime createdDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id", insertable = false, updatable = false)
@@ -47,6 +50,7 @@ public class CreditorEntity {
 
     @PrePersist
     protected void onCreate() {
+        this.createdDate = LocalDateTime.now();
         this.visible = Boolean.TRUE;
     }
 }

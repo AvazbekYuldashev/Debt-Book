@@ -50,6 +50,7 @@ public class AuthService {
     /// Registers the user or continues the previous registration process and sends a confirmation email.
     /// The new user is assigned the admin role.
     public String registration(RegistrationDTO dto, AppLanguage lang) {
+
         Optional<ProfileEntity> optional = profileRepository.findByUsernameAndVisibleTrue(dto.getUsername());
         if (optional.isPresent()) {
             ProfileEntity profile = optional.get();
