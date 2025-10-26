@@ -1,0 +1,13 @@
+### CREATE
+POST http://localhost:8080/core/debt-book
+Accept-Language: UZ
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJHcmVlZCIsInJvbGUiOiJST0xFX0FETUlOIiwiaWQiOiI1MmEwNzYwOS01Mjk5LTQ3NzEtOTc4MS1lZjVjMGYwNDhhZTQiLCJpYXQiOjE3NjE0MTQzNjEsImV4cCI6MTc2MTUwMDc2MX0.Qb6GxSFtQHpieF1n4anxCBpFWFxnlPQDqt7f9j5X5Y6TIOu0T8GF8T5xlUdGQuoUekVmPq5CgvpRpag4TKON_Q
+
+{
+  "title": "Qoshni olim akani qarzlari",
+  "description": "Qoshni olim aka mening dokonimdan oldi sotti xisoblanmalarimiz",
+  "creditorId": "13dfa19d-e772-4c93-83bc-d2d18dd4bba3",
+  "debtorId": "314fd953-4c3b-49c5-be64-eb88c4fd4d5e"
+
+}

@@ -2,7 +2,7 @@ package api.debt.book.debt.entity;
 
 
 import api.debt.book.creditor.entity.CreditorEntity;
-import api.debt.book.debitBook.entity.DebtBookEntity;
+import api.debt.book.debtBook.entity.DebtBookEntity;
 import api.debt.book.debtor.entity.DebtorEntity;
 import jakarta.persistence.*;
 import lombok.Getter;

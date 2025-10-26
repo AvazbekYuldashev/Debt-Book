@@ -1,9 +1,20 @@
 package api.debt.book.debt.repository;
 
 import api.debt.book.debt.entity.DebtEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 @Repository
 public interface DebtRepository extends JpaRepository<DebtEntity, String> {
+
+    @Query("SELECT d FROM DebtEntity d WHERE d.id = :id AND d.visible = TRUE")
+    Optional<DebtEntity> findByIdAndVisibleTrue(String id);
+
+    @Query("SELECT d FROM DebtEntity d WHERE d.visible = TRUE")
+    Page<DebtEntity> findAllPage(PageRequest of);
 }

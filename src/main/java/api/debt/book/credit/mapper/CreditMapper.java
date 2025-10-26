@@ -1,5 +1,6 @@
 package api.debt.book.credit.mapper;
 
+import api.debt.book.credit.dto.core.CreditCreatedDTO;
 import api.debt.book.credit.dto.core.CreditResponseDTO;
 import api.debt.book.credit.entity.CreditEntity;
 import org.springframework.stereotype.Component;
@@ -17,5 +18,14 @@ public class CreditMapper {
         dto.setCreditorCheck(entity.getCreditorCheck());
         dto.setDebtorCheck(entity.getDebtorCheck());
         return dto;
+    }
+
+    public CreditEntity toCreatedEntity(CreditCreatedDTO dto) {
+        CreditEntity entity = new CreditEntity();
+        entity.setAmount(dto.getAmount());
+        entity.setDebtorId(dto.getDebtorId());
+        entity.setCreditorId(dto.getCreditorId());
+        entity.setDebtBookId(dto.getDebtBookId());
+        return entity;
     }
 }

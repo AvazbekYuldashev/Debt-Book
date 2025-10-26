@@ -1,0 +1,28 @@
+### CREATE
+POST http://localhost:8080/core/creditor
+Accept-Language: UZ
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJHcmVlZCIsInJvbGUiOiJST0xFX0FETUlOIiwiaWQiOiI1NTQ3MjE2My0zZmNjLTQ3NTUtOGEwOS0xMzhmYTk4MTI0N2UiLCJpYXQiOjE3NjE0NjI2OTgsImV4cCI6MTc2MTU0OTA5OH0.pxT7m3pZCP1H3rBVK_PIEEXn3rzG3xBRuuLmNhlNaTRo98zirXXrBxKTWplnnqSnJnBcbJkpD6AaNRvCC9QZCg
+
+{
+  "firstName": "Olim",
+  "lastName": "Olimov",
+  "patronymic": "Olimovich",
+  "phone": "+998901111111",
+  "address": "2025-10-10",
+  "birthDate": "1980-10-10",
+  "email": "asdasd@gmail.com"
+}
+
+### Get all
+GET http://localhost:8080/core/creditor/all
+Accept-Language: UZ
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJHcmVlZCIsInJvbGUiOiJST0xFX0FETUlOIiwiaWQiOiI1MmEwNzYwOS01Mjk5LTQ3NzEtOTc4MS1lZjVjMGYwNDhhZTQiLCJpYXQiOjE3NjE0MTQzNjEsImV4cCI6MTc2MTUwMDc2MX0.Qb6GxSFtQHpieF1n4anxCBpFWFxnlPQDqt7f9j5X5Y6TIOu0T8GF8T5xlUdGQuoUekVmPq5CgvpRpag4TKON_Q
+
+
+### Get by id
+GET http://localhost:8080/core/creditor/2a7961f1-cae7-49a1-a4a5-04c39408f549
+Accept-Language: UZ
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJHcmVlZCIsInJvbGUiOiJST0xFX0FETUlOIiwiaWQiOiI1MmEwNzYwOS01Mjk5LTQ3NzEtOTc4MS1lZjVjMGYwNDhhZTQiLCJpYXQiOjE3NjE0MTQzNjEsImV4cCI6MTc2MTUwMDc2MX0.Qb6GxSFtQHpieF1n4anxCBpFWFxnlPQDqt7f9j5X5Y6TIOu0T8GF8T5xlUdGQuoUekVmPq5CgvpRpag4TKON_Q

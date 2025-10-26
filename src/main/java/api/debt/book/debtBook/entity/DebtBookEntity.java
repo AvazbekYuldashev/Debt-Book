@@ -1,4 +1,4 @@
-package api.debt.book.debitBook.entity;
+package api.debt.book.debtBook.entity;
 
 import api.debt.book.creditor.entity.CreditorEntity;
 import api.debt.book.debtor.entity.DebtorEntity;
@@ -39,9 +39,11 @@ public class DebtBookEntity {
     @Column(name = "creditor_id")
     private String creditorId;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creditor_id", insertable = false, updatable = false)
     private CreditorEntity creditor;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "debtor_id", insertable = false, updatable = false)

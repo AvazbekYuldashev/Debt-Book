@@ -1,9 +1,19 @@
 package api.debt.book.credit.service;
 
+import api.debt.book.app.enums.AppLanguage;
+import api.debt.book.app.service.ResourceBoundleService;
+import api.debt.book.credit.dto.core.CreditResponseDTO;
+import api.debt.book.credit.entity.CreditEntity;
 import api.debt.book.credit.mapper.CreditMapper;
 import api.debt.book.credit.repository.CreditRepository;
+import api.debt.book.exception.exps.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CreditService {
@@ -11,4 +21,27 @@ public class CreditService {
     private CreditMapper creditMapper;
     @Autowired
     private CreditRepository creditRepository;
+    @Autowired
+    private ResourceBoundleService boundleService;
+
+    public CreditEntity save(CreditEntity entity){
+        return creditRepository.save(entity);
+    }
+
+    public CreditEntity findById(String id, AppLanguage lang){
+        Optional<CreditEntity> optional = creditRepository.findByIdAndVisibleTrue(id);
+        if (optional.isEmpty()){
+            throw new ResourceNotFoundException(boundleService.getMessage("profile.not.found", lang) + ": " + id);
+        }
+        return optional.get();
+    }
+
+    public PageImpl<CreditResponseDTO> findAll(int page, int size, AppLanguage lang) {
+        Sort sort = Sort.by("createdDate").descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        Page<CreditEntity> pageObj = creditRepository.findAllPage(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+        List<CreditResponseDTO> response = pageObj.getContent().stream().map(creditMapper::toResponseDTO).collect(Collectors.toList());
+        long total = pageObj.getTotalElements();
+        return new PageImpl<>(response, pageable, total);
+    }
 }
