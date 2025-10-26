@@ -58,13 +58,13 @@ Content-Type: application/json
 }
 
 ### Confirm Reset Password
-POST http://localhost:8080/auth/reset-password-confrim
+POST http://localhost:8080/auth/reset-password-confirm
 Content-Type: application/json
 
 {
   "username": "telegram.vzlom@gmail.com",
   "password": "11223344",
-  "confirmCode": "79313"
+  "confirmCode": "15747"
 }
 
 
