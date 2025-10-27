@@ -1,7 +1,9 @@
 package api.debt.book.credit.service;
 
+import api.debt.book.app.dto.AppResponse;
 import api.debt.book.app.enums.AppLanguage;
 import api.debt.book.app.service.ResourceBoundleService;
+import api.debt.book.app.util.AppResponseUtil;
 import api.debt.book.credit.dto.core.CreditResponseDTO;
 import api.debt.book.credit.entity.CreditEntity;
 import api.debt.book.credit.mapper.CreditMapper;
@@ -43,5 +45,29 @@ public class CreditService {
         List<CreditResponseDTO> response = pageObj.getContent().stream().map(creditMapper::toResponseDTO).collect(Collectors.toList());
         long total = pageObj.getTotalElements();
         return new PageImpl<>(response, pageable, total);
+    }
+
+    public PageImpl<CreditResponseDTO> findByCreditorId(String id, int page, int size, AppLanguage lang) {
+        Sort sort = Sort.by("createdDate").descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        Page<CreditEntity> pageObj = creditRepository.findByCreditorId(id, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+        List<CreditResponseDTO> response = pageObj.getContent().stream().map(creditMapper::toResponseDTO).collect(Collectors.toList());
+        long total = pageObj.getTotalElements();
+        return new PageImpl<>(response, pageable, total);
+    }
+
+    public AppResponse<String> updateCreditorCheck(String id, AppLanguage lang) {
+        int effectedRow = creditRepository.updateCreditorCheck(id);
+        return AppResponseUtil.chek(effectedRow > 0);
+    }
+
+    public AppResponse<String> updateDebtorCheck(String id, AppLanguage lang) {
+        int effectedRow = creditRepository.updateDebtorCheck(id);
+        return AppResponseUtil.chek(effectedRow > 0);
+    }
+
+    public AppResponse<String> deleteById(String id, AppLanguage lang) {
+        int effectedRow = creditRepository.deleteSoft(id);
+        return AppResponseUtil.chek(effectedRow > 0);
     }
 }

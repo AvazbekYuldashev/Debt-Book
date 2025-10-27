@@ -1,8 +1,7 @@
 package api.debt.book.credit.entity;
 
-import api.debt.book.creditor.entity.CreditorEntity;
 import api.debt.book.debtBook.entity.DebtBookEntity;
-import api.debt.book.debtor.entity.DebtorEntity;
+import api.debt.book.profile.entity.ProfileEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -46,11 +45,11 @@ public class CreditEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creditor_id", insertable = false, updatable = false)
-    private CreditorEntity creditor;
+    private ProfileEntity creditor;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "debtor_id", insertable = false, updatable = false)
-    private DebtorEntity debtor;
+    private ProfileEntity debtor;
 
 
     @ManyToOne(fetch = FetchType.LAZY)

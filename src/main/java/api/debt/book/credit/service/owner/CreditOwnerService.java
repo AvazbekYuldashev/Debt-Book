@@ -1,25 +1,21 @@
-package api.debt.book.credit.service.core;
+package api.debt.book.credit.service.owner;
 
 import api.debt.book.app.enums.AppLanguage;
 import api.debt.book.credit.dto.core.CreditCreatedDTO;
 import api.debt.book.credit.dto.core.CreditResponseDTO;
-import api.debt.book.credit.entity.CreditEntity;
 import api.debt.book.credit.mapper.CreditMapper;
 import api.debt.book.credit.service.CreditService;
-import api.debt.book.security.util.SpringSecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CreditCoreService extends CreditService {
+public class CreditOwnerService extends CreditService {
     @Autowired
     private CreditMapper creditMapper;
 
     public CreditResponseDTO create(CreditCreatedDTO dto, AppLanguage lang) {
-        CreditEntity entity = creditMapper.toCreatedEntity(dto);
-        entity.setCreditorId(SpringSecurityUtil.getCurrentUserId());
-        return creditMapper.toResponseDTO(save(entity));
+        return creditMapper.toResponseDTO(save(creditMapper.toCreatedEntity(dto)));
     }
 
     public CreditResponseDTO getById(String id, AppLanguage lang) {

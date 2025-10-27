@@ -1,7 +1,6 @@
 package api.debt.book.credit.controller.core;
 
 import api.debt.book.app.enums.AppLanguage;
-import api.debt.book.credit.dto.core.CreditCreatedDTO;
 import api.debt.book.credit.dto.core.CreditResponseDTO;
 import api.debt.book.credit.service.core.CreditCoreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +16,6 @@ public class CreditCoreController {
     @Autowired
     private CreditCoreService creditCoreService;
 
-
-    @PostMapping("")
-    public ResponseEntity<CreditResponseDTO> create(@RequestBody CreditCreatedDTO dto,
-                                                    @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage lang) {
-        return ResponseEntity.ok().body(creditCoreService.create(dto, lang));
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<CreditResponseDTO> findById(@PathVariable String id,
                                                         @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage lang) {
@@ -36,6 +28,7 @@ public class CreditCoreController {
                                                                  @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage lang){
         return ResponseEntity.ok().body(creditCoreService.getAll(getCurrentPage(page), size, lang));
     }
+
 
 
 
