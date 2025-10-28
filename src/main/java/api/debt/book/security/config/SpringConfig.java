@@ -31,8 +31,6 @@ public class SpringConfig {
 
     public static final String[] AUTH_WHITELIST = {
             "/auth/**",
-            "202.181.188.35:8080",
-            "202.181.188.35",
             "/api/v1/auth/**",
             "/swagger-ui/**",
             "/v3/api-docs/**",
@@ -71,7 +69,11 @@ public class SpringConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:8080", // Swagger
-                "http://localhost:3000"  // Frontend
+                "http://localhost:3000",  // Frontend
+                "http://202.181.188.35", // Frontend
+                "http://202.181.188.35:3000", // Frontend
+                "202.181.188.35:8080",
+                "202.181.188.35"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));

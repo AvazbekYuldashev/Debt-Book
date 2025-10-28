@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/core/profile")
-@PreAuthorize("hasAnyRole('OWNER','ADMIN', 'MANAGER', 'EMPLOYEE', 'USER')")
+@PreAuthorize("hasAnyRole('OWNER','ADMIN', 'DEBTOR', 'CREDITOR')")
 public class ProfileController {
     @Autowired
     private ProfileService profileService;

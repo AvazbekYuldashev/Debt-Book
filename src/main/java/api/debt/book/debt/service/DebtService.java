@@ -1,7 +1,9 @@
 package api.debt.book.debt.service;
 
+import api.debt.book.app.dto.AppResponse;
 import api.debt.book.app.enums.AppLanguage;
 import api.debt.book.app.service.ResourceBoundleService;
+import api.debt.book.app.util.AppResponseUtil;
 import api.debt.book.debt.dto.core.DebtResponseDTO;
 import api.debt.book.debt.entity.DebtEntity;
 import api.debt.book.debt.mapper.DebtMapper;
@@ -43,5 +45,10 @@ public class DebtService {
         List<DebtResponseDTO> response = pageObj.getContent().stream().map(debtMapper::toResponseDTO).collect(Collectors.toList());
         long total = pageObj.getTotalElements();
         return new PageImpl<>(response, pageable, total);
+    }
+
+    public AppResponse<String> updateCreditorCheck(String id, AppLanguage lang) {
+        int effectedRow = debtRepository.updateCreditorCheck(id);
+        return AppResponseUtil.chek(effectedRow > 0);
     }
 }

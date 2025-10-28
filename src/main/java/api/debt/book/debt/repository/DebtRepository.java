@@ -1,9 +1,11 @@
 package api.debt.book.debt.repository;
 
 import api.debt.book.debt.entity.DebtEntity;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -17,4 +19,9 @@ public interface DebtRepository extends JpaRepository<DebtEntity, String> {
 
     @Query("SELECT d FROM DebtEntity d WHERE d.visible = TRUE")
     Page<DebtEntity> findAllPage(PageRequest of);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE DebtEntity d SET d.debtorCheck = TRUE WHERE d.id = :id")
+    int updateCreditorCheck(String id);
 }
