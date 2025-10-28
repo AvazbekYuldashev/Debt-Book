@@ -67,14 +67,7 @@ public class SpringConfig {
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList(
-                "http://localhost:8080", // Swagger
-                "http://localhost:3000",  // Frontend
-                "http://202.181.188.35", // Frontend
-                "http://202.181.188.35:3000", // Frontend
-                "202.181.188.35:8080",
-                "202.181.188.35"
-        ));
+        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
