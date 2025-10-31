@@ -16,7 +16,7 @@ public class CreditOwnerService extends CreditService {
     private CreditMapper creditMapper;
 
     public CreditResponseDTO create(CreditCreatedDTO dto, AppLanguage lang) {
-        return creditMapper.toResponseDTO(save(creditMapper.toCreatedEntity(dto)));
+        return creditMapper.toResponseDTO(save(creditMapper.toCreatedEntity(dto), lang));
     }
 
     public CreditResponseDTO getById(String id, AppLanguage lang) {

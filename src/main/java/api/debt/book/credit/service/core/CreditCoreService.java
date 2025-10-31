@@ -17,6 +17,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 public class CreditCoreService extends CreditService {
     @Autowired
@@ -26,7 +28,7 @@ public class CreditCoreService extends CreditService {
         CreditEntity entity = creditMapper.toCreatedEntity(dto);
         entity.setCreditorId(SpringSecurityUtil.getCurrentUserId());
         entity.setCreditorCheck(true);
-        return creditMapper.toResponseDTO(save(entity));
+        return creditMapper.toResponseDTO(save(entity, lang));
     }
 
     public CreditResponseDTO getById(String id, AppLanguage lang) {
@@ -69,6 +71,21 @@ public class CreditCoreService extends CreditService {
 
     public Page<CreditResponseDTO> getAllByDebtorId(String id, int page, int size, AppLanguage lang) {
         return findAllByDebtorId(id, page, size, lang);
+    }
+
+    public AppResponse<String> deleteSoft(String id, AppLanguage lang) {
+        CreditEntity entity = findById(id, lang);
+        if (!entity.getCreditorId().equals(SpringSecurityUtil.getCurrentUserId())) {
+            throw new AuthorizationDeniedException("asdasd");
+        }
+        if (entity.getDebtorCheck().equals(true)) {
+            throw new AuthorizationDeniedException("asdasd");
+        }
+        return deleteById(id, lang);
+    }
+
+    public AppResponse<BigDecimal> getAllTootalPrice(AppLanguage lang) {
+        return new AppResponse<>(getTootalPrice(lang));
     }
 
 }

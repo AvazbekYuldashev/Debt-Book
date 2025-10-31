@@ -1,5 +1,6 @@
 package api.debt.book.debt.repository;
 
+import api.debt.book.credit.entity.CreditEntity;
 import api.debt.book.debt.entity.DebtEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
@@ -19,8 +20,10 @@ public interface DebtRepository extends JpaRepository<DebtEntity, String> {
     @Query("SELECT d FROM DebtEntity d WHERE d.id = :id AND d.visible = TRUE")
     Optional<DebtEntity> findByIdAndVisibleTrue(String id);
 
+
     @Query("SELECT d FROM DebtEntity d WHERE d.visible = TRUE")
-    Page<DebtEntity> findAllByVisibleTrue(PageRequest of);
+    Page<DebtEntity> findAllPage(PageRequest of);
+
 
     @Query("SELECT d FROM DebtEntity d WHERE d.debtBookId = :id AND d.visible = TRUE ")
     List<DebtEntity> findAllByDebtBookId(@Param("id") String id);
@@ -45,4 +48,8 @@ public interface DebtRepository extends JpaRepository<DebtEntity, String> {
     @Transactional
     @Query("UPDATE DebtEntity d SET d.visible = FALSE WHERE d.id = :id")
     int deleteSoft(String id);
+
+    @Query("SELECT d FROM DebtEntity d WHERE d.visible = TRUE")
+    List<DebtEntity> findAllByVisibleTrue();
+
 }

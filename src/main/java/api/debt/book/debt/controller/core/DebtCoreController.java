@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+
 @RestController
 @RequestMapping("/core/debt")
 @PreAuthorize("hasAnyRole('OWNER','ADMIN', 'USER')")
@@ -64,6 +66,17 @@ public class DebtCoreController {
                                                                     @RequestParam(value = "size", defaultValue = "15") int size,
                                                                     @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage lang){
         return ResponseEntity.ok().body(debtCoreService.getAllByDebtorId(id, getCurrentPage(page), size, lang));
+    }
+
+    @GetMapping("/tootal-price")
+    public ResponseEntity<AppResponse<BigDecimal>> getAllTootalPrice(@RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage lang){
+        return ResponseEntity.ok().body(debtCoreService.getAllTootalPrice(lang));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<AppResponse<String>> deleteById(@PathVariable("id") String id,
+                                                          @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage lang){
+        return ResponseEntity.ok().body(debtCoreService.deleteSoft(id, lang));
     }
 
 

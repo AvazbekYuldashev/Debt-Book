@@ -45,4 +45,7 @@ public interface CreditRepository extends JpaRepository<CreditEntity, String> {
     @Query("UPDATE CreditEntity c SET c.visible = FALSE WHERE c.id = :id")
     int deleteSoft(@Param("id") String id);
 
+
+    @Query("SELECT c FROM CreditEntity c WHERE c.visible = TRUE")
+    List<CreditEntity> findAllByVisibleTrue();
 }

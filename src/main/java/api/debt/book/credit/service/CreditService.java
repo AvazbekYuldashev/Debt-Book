@@ -10,12 +10,15 @@ import api.debt.book.credit.mapper.CreditMapper;
 import api.debt.book.credit.repository.CreditRepository;
 import api.debt.book.debt.dto.core.DebtResponseDTO;
 import api.debt.book.debt.entity.DebtEntity;
+import api.debt.book.exception.exps.AppBadException;
 import api.debt.book.exception.exps.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,7 +32,10 @@ public class CreditService {
     @Autowired
     private ResourceBoundleService boundleService;
 
-    public CreditEntity save(CreditEntity entity){
+    public CreditEntity save(CreditEntity entity, AppLanguage lang){
+        if (entity.getDebtorId().equals(entity.getCreditorId())){
+            throw new AppBadException("Debtor and creditor cannot be the same user.");
+        }
         return creditRepository.save(entity);
     }
 
@@ -78,6 +84,17 @@ public class CreditService {
     public AppResponse<String> deleteById(String id, AppLanguage lang) {
         int effectedRow = creditRepository.deleteSoft(id);
         return AppResponseUtil.chek(effectedRow > 0);
+    }
+
+    public BigDecimal getTootalPrice(AppLanguage lang) {
+        List<CreditEntity> creditResponseList =
+                Optional.ofNullable(creditRepository.findAllByVisibleTrue())
+                        .orElse(Collections.emptyList());
+
+        BigDecimal totalCredit = creditResponseList.stream()
+                .map(CreditEntity::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        return totalCredit;
     }
 
     private Page<CreditResponseDTO> mapToDTOPage(Page<CreditEntity> entities, Pageable pageable) {

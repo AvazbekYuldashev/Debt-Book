@@ -12,6 +12,7 @@ import api.debt.book.debtBook.entity.DebtBookEntity;
 import api.debt.book.debtBook.mapper.DebtBookMapper;
 import api.debt.book.debtBook.service.DebtBookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
@@ -31,15 +32,14 @@ public class DebtBookCoreService extends DebtBookService {
 
     public DebtBookResponseDTO create(DebtBookCreatedDTO dto, AppLanguage lang) {
         DebtBookEntity entity = debtBookMapper.toCreatedEntity(dto);
-        return debtBookMapper.toResponseDTO(save(entity));
-
+        return debtBookMapper.toResponseDTO(save(entity, lang));
     }
 
     public DebtBookResponseDTO getById(String id, AppLanguage lang) {
         return debtBookMapper.toResponseDTO(findById(id, lang));
     }
 
-    public PageImpl<DebtBookResponseDTO> getAll(int page, int size, AppLanguage lang) {
+    public Page<DebtBookResponseDTO> getAll(int page, int size, AppLanguage lang) {
         return findAll(page, size, lang);
 
     }
@@ -76,9 +76,16 @@ public class DebtBookCoreService extends DebtBookService {
                 .debtorId(entity.getDebtorId())
                 .credits(creditResponseList)
                 .debts(debtResponseList)
-                .amount(balance) // bu to‘g‘ri BigDecimal qiymat
+                .amount(balance)
                 .build();
     }
 
+    public Page<DebtBookResponseDTO> findAllByCreditorId(String id, int page, int size, AppLanguage lang) {
+        return findByCreditorId(id, page, size, lang);
+    }
+
+    public Page<DebtBookResponseDTO> findAllByDebtorId(String id, int page, int size, AppLanguage lang) {
+        return findByDebtorId(id, page, size, lang);
+    }
 
 }

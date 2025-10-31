@@ -4,16 +4,21 @@ import api.debt.book.app.dto.AppResponse;
 import api.debt.book.app.enums.AppLanguage;
 import api.debt.book.app.service.ResourceBoundleService;
 import api.debt.book.app.util.AppResponseUtil;
+import api.debt.book.credit.entity.CreditEntity;
 import api.debt.book.debt.dto.core.DebtResponseDTO;
 import api.debt.book.debt.entity.DebtEntity;
 import api.debt.book.debt.mapper.DebtMapper;
 import api.debt.book.debt.repository.DebtRepository;
+import api.debt.book.exception.exps.AppBadException;
 import api.debt.book.exception.exps.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,7 +30,10 @@ public class DebtService {
     @Autowired
     private ResourceBoundleService boundleService;
 
-    public DebtEntity save(DebtEntity entity){
+    public DebtEntity save(DebtEntity entity, AppLanguage lang){
+        if (entity.getDebtorId().equals(entity.getCreditorId())){
+            throw new AppBadException("Debtor and creditor cannot be the same user.");
+        }
         return debtRepository.save(entity);
     }
 
@@ -38,7 +46,7 @@ public class DebtService {
 
     public Page<DebtResponseDTO> findAll(int page, int size, AppLanguage lang) {
         PageRequest pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
-        Page<DebtEntity> pageObj = debtRepository.findAllByVisibleTrue(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+        Page<DebtEntity> pageObj = debtRepository.findAllPage(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
         return mapToDTOPage(pageObj, pageable);
     }
 
@@ -74,6 +82,17 @@ public class DebtService {
     public AppResponse<String> deleteById(String id, AppLanguage lang) {
         int effectedRow = debtRepository.deleteSoft(id);
         return AppResponseUtil.chek(effectedRow > 0);
+    }
+
+
+    public BigDecimal getTootalPrice(AppLanguage lang) {
+        List<DebtEntity> creditResponseList =
+                Optional.ofNullable(debtRepository.findAllByVisibleTrue())
+                        .orElse(Collections.emptyList());
+
+        return creditResponseList.stream()
+                .map(DebtEntity::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     private Page<DebtResponseDTO> mapToDTOPage(Page<DebtEntity> entities, Pageable pageable) {

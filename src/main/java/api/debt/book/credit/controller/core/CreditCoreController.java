@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+
 @RestController
 @RequestMapping("/core/credit")
 @PreAuthorize("hasAnyRole('OWNER','ADMIN', 'USER')")
@@ -58,6 +60,16 @@ public class CreditCoreController {
         return ResponseEntity.ok().body(creditCoreService.getAllByDebtorId(id, getCurrentPage(page), size, lang));
     }
 
+    @GetMapping("/tootal-price")
+    public ResponseEntity<AppResponse<BigDecimal>> getAllTootalPrice(@RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage lang){
+        return ResponseEntity.ok().body(creditCoreService.getAllTootalPrice(lang));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<AppResponse<String>> deleteById(@PathVariable("id") String id,
+                                                          @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage lang){
+        return ResponseEntity.ok().body(creditCoreService.deleteSoft(id, lang));
+    }
 
     public static int getCurrentPage(Integer page) {
         return page > 0 ? page - 1 : 1;
