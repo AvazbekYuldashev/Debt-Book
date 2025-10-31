@@ -25,7 +25,7 @@ public class CreditCoreController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<PageImpl<CreditResponseDTO>> findAll(@RequestParam(value = "page", defaultValue = "1") int page,
+    public ResponseEntity<Page<CreditResponseDTO>> findAll(@RequestParam(value = "page", defaultValue = "1") int page,
                                                                  @RequestParam(value = "size", defaultValue = "15") int size,
                                                                  @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage lang){
         return ResponseEntity.ok().body(creditCoreService.getAll(getCurrentPage(page), size, lang));

@@ -35,7 +35,7 @@ public class DebtService {
                         boundleService.getMessage("profile.not.found", lang) + ": " + id
                 ));
     }
-    
+
     public Page<DebtResponseDTO> findAll(int page, int size, AppLanguage lang) {
         PageRequest pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
         Page<DebtEntity> pageObj = debtRepository.findAllByVisibleTrue(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
@@ -70,6 +70,11 @@ public class DebtService {
         return AppResponseUtil.chek(effectedRow > 0);
     }
 
+
+    public AppResponse<String> deleteById(String id, AppLanguage lang) {
+        int effectedRow = debtRepository.deleteSoft(id);
+        return AppResponseUtil.chek(effectedRow > 0);
+    }
 
     private Page<DebtResponseDTO> mapToDTOPage(Page<DebtEntity> entities, Pageable pageable) {
         List<DebtResponseDTO> response = entities.getContent()

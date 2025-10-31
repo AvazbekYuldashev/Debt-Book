@@ -33,7 +33,7 @@ public class CreditCoreService extends CreditService {
         return creditMapper.toResponseDTO(findById(id, lang));
     }
 
-    public PageImpl<CreditResponseDTO> getAll(int page, int size, AppLanguage lang) {
+    public Page<CreditResponseDTO> getAll(int page, int size, AppLanguage lang) {
         return findAll(page, size, lang);
     }
 

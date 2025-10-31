@@ -22,6 +22,15 @@ public interface DebtRepository extends JpaRepository<DebtEntity, String> {
     @Query("SELECT d FROM DebtEntity d WHERE d.visible = TRUE")
     Page<DebtEntity> findAllByVisibleTrue(PageRequest of);
 
+    @Query("SELECT d FROM DebtEntity d WHERE d.debtBookId = :id AND d.visible = TRUE ")
+    List<DebtEntity> findAllByDebtBookId(@Param("id") String id);
+
+    @Query("SELECT d FROM DebtEntity d WHERE d.debtorId = :id AND d.visible = TRUE ")
+    Page<DebtEntity> findAllByDebtorId(@Param("id") String id, PageRequest of);
+
+    @Query("SELECT d FROM DebtEntity d WHERE d.creditorId = :id AND d.visible = TRUE ")
+    Page<DebtEntity> findAllByCreditorId(@Param("id") String id, PageRequest of);
+
     @Modifying
     @Transactional
     @Query("UPDATE DebtEntity d SET d.creditorCheck = TRUE WHERE d.id = :id")
@@ -32,12 +41,8 @@ public interface DebtRepository extends JpaRepository<DebtEntity, String> {
     @Query("UPDATE DebtEntity d SET d.debtorCheck = TRUE WHERE d.id = :id")
     int updateDebtorCheck(String id);
 
-    @Query("SELECT d FROM DebtEntity d WHERE d.debtBookId = :id AND d.visible = TRUE ")
-    List<DebtEntity> findAllByDebtBookId(@Param("id") String id);
-
-    @Query("SELECT d FROM DebtEntity d WHERE d.debtorId = :id AND d.visible = TRUE ")
-    Page<DebtEntity> findAllByDebtorId(@Param("id") String id, PageRequest of);
-
-    @Query("SELECT d FROM DebtEntity d WHERE d.creditorId = :id AND d.visible = TRUE ")
-    Page<DebtEntity> findAllByCreditorId(@Param("id") String id, PageRequest of);
+    @Modifying
+    @Transactional
+    @Query("UPDATE DebtEntity d SET d.visible = FALSE WHERE d.id = :id")
+    int deleteSoft(String id);
 }

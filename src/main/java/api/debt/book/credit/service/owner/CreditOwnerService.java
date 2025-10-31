@@ -6,6 +6,7 @@ import api.debt.book.credit.dto.core.CreditResponseDTO;
 import api.debt.book.credit.mapper.CreditMapper;
 import api.debt.book.credit.service.CreditService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class CreditOwnerService extends CreditService {
         return creditMapper.toResponseDTO(findById(id, lang));
     }
 
-    public PageImpl<CreditResponseDTO> getAll(int page, int size, AppLanguage lang) {
+    public Page<CreditResponseDTO> getAll(int page, int size, AppLanguage lang) {
         return findAll(page, size, lang);
     }
 }

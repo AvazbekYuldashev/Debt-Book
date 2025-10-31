@@ -8,6 +8,8 @@ import api.debt.book.credit.dto.core.CreditResponseDTO;
 import api.debt.book.credit.entity.CreditEntity;
 import api.debt.book.credit.mapper.CreditMapper;
 import api.debt.book.credit.repository.CreditRepository;
+import api.debt.book.debt.dto.core.DebtResponseDTO;
+import api.debt.book.debt.entity.DebtEntity;
 import api.debt.book.exception.exps.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -31,30 +33,36 @@ public class CreditService {
         return creditRepository.save(entity);
     }
 
-    public CreditEntity findById(String id, AppLanguage lang){
-        Optional<CreditEntity> optional = creditRepository.findByIdAndVisibleTrue(id);
-        if (optional.isEmpty()){
-            throw new ResourceNotFoundException(boundleService.getMessage("profile.not.found", lang) + ": " + id);
-        }
-        return optional.get();
+    public CreditEntity findById(String id, AppLanguage lang) {
+        return creditRepository.findByIdAndVisibleTrue(id)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        boundleService.getMessage("profile.not.found", lang) + ": " + id
+                ));
     }
 
-    public PageImpl<CreditResponseDTO> findAll(int page, int size, AppLanguage lang) {
-        Sort sort = Sort.by("createdDate").descending();
-        Pageable pageable = PageRequest.of(page, size, sort);
+    public Page<CreditResponseDTO> findAll(int page, int size, AppLanguage lang) {
+        PageRequest pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
         Page<CreditEntity> pageObj = creditRepository.findAllPage(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
-        List<CreditResponseDTO> response = pageObj.getContent().stream().map(creditMapper::toResponseDTO).collect(Collectors.toList());
-        long total = pageObj.getTotalElements();
-        return new PageImpl<>(response, pageable, total);
+        return mapToDTOPage(pageObj, pageable);
     }
 
-    public PageImpl<CreditResponseDTO> findByCreditorId(String id, int page, int size, AppLanguage lang) {
-        Sort sort = Sort.by("createdDate").descending();
-        Pageable pageable = PageRequest.of(page, size, sort);
-        Page<CreditEntity> pageObj = creditRepository.findByCreditorId(id, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
-        List<CreditResponseDTO> response = pageObj.getContent().stream().map(creditMapper::toResponseDTO).collect(Collectors.toList());
-        long total = pageObj.getTotalElements();
-        return new PageImpl<>(response, pageable, total);
+    public List<CreditResponseDTO> findAllByDebtBookId(String id, AppLanguage lang) {
+        return creditRepository.findAllByDebtBookId(id).stream()
+                .map(creditMapper::toResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+
+    public Page<CreditResponseDTO> findAllByCreditorId(String id, int page, int size, AppLanguage lang) {
+        PageRequest pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
+        Page<CreditEntity> pageObj = creditRepository.findAllByCreditorId(id, pageable);
+        return mapToDTOPage(pageObj, pageable);
+    }
+
+    public Page<CreditResponseDTO> findAllByDebtorId(String id, int page, int size, AppLanguage lang) {
+        PageRequest pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
+        Page<CreditEntity> pageObj = creditRepository.findAllByDebtorId(id, pageable);
+        return mapToDTOPage(pageObj, pageable);
     }
 
     public AppResponse<String> updateCreditorCheck(String id, AppLanguage lang) {
@@ -72,30 +80,11 @@ public class CreditService {
         return AppResponseUtil.chek(effectedRow > 0);
     }
 
-    public List<CreditResponseDTO> findAllByDebtBookId(String id, AppLanguage lang) {
-        List<CreditEntity> creditEntities = creditRepository.findAllByDebtBookId(id);
-        List<CreditResponseDTO> response = new ArrayList<>();
-        for(CreditEntity entity : creditEntities){
-            response.add(creditMapper.toResponseDTO(entity));
-        }
-        return response;
-    }
-
-    public Page<CreditResponseDTO> findAllByCreditorId(String id, int page, int size, AppLanguage lang) {
-        Sort sort = Sort.by("createdDate").descending();
-        Pageable pageable = PageRequest.of(page, size, sort);
-        Page<CreditEntity> pageObj = creditRepository.findAllByCreditorId(id, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
-        List<CreditResponseDTO> response = pageObj.getContent().stream().map(creditMapper::toResponseDTO).collect(Collectors.toList());
-        long total = pageObj.getTotalElements();
-        return new PageImpl<>(response, pageable, total);
-    }
-
-    public Page<CreditResponseDTO> findAllByDebtorId(String id, int page, int size, AppLanguage lang) {
-        Sort sort = Sort.by("createdDate").descending();
-        Pageable pageable = PageRequest.of(page, size, sort);
-        Page<CreditEntity> pageObj = creditRepository.findAllByDebtorId(id, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
-        List<CreditResponseDTO> response = pageObj.getContent().stream().map(creditMapper::toResponseDTO).collect(Collectors.toList());
-        long total = pageObj.getTotalElements();
-        return new PageImpl<>(response, pageable, total);
+    private Page<CreditResponseDTO> mapToDTOPage(Page<CreditEntity> entities, Pageable pageable) {
+        List<CreditResponseDTO> response = entities.getContent()
+                .stream()
+                .map(creditMapper::toResponseDTO)
+                .collect(Collectors.toList());
+        return new PageImpl<>(response, pageable, entities.getTotalElements());
     }
 }
