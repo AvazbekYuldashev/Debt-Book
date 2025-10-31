@@ -35,8 +35,7 @@ public class DebtService {
                         boundleService.getMessage("profile.not.found", lang) + ": " + id
                 ));
     }
-
-
+    
     public Page<DebtResponseDTO> findAll(int page, int size, AppLanguage lang) {
         PageRequest pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
         Page<DebtEntity> pageObj = debtRepository.findAllByVisibleTrue(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
@@ -48,7 +47,6 @@ public class DebtService {
                 .map(debtMapper::toResponseDTO)
                 .collect(Collectors.toList());
     }
-
 
     public Page<DebtResponseDTO> findAllByCreditorId(String id, int page, int size, AppLanguage lang) {
         PageRequest pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
