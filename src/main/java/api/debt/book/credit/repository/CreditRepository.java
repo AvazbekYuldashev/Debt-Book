@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -36,4 +37,7 @@ public interface CreditRepository extends JpaRepository<CreditEntity, String> {
     @Transactional
     @Query("UPDATE CreditEntity c SET c.visible = FALSE WHERE c.id = :id")
     int deleteSoft(@Param("id") String id);
+
+    @Query("SELECT c FROM CreditEntity c WHERE c.debtBookId = :id AND c.visible = TRUE ")
+    List<CreditEntity> findAllByDebtBookId(@Param("id") String id);
 }

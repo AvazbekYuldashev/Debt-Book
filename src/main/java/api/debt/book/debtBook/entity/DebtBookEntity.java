@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -29,7 +30,7 @@ public class DebtBookEntity {
 
 
     @Column(name = "amount")
-    private Double amount;
+    private BigDecimal amount;
 
 
     @Column(name = "debtor_id")

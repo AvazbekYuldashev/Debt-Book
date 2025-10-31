@@ -7,8 +7,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -22,6 +24,14 @@ public interface DebtRepository extends JpaRepository<DebtEntity, String> {
 
     @Modifying
     @Transactional
-    @Query("UPDATE DebtEntity d SET d.debtorCheck = TRUE WHERE d.id = :id")
+    @Query("UPDATE DebtEntity d SET d.creditorCheck = TRUE WHERE d.id = :id")
     int updateCreditorCheck(String id);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE DebtEntity d SET d.debtorCheck = TRUE WHERE d.id = :id")
+    int updateDebtorCheck(String id);
+
+    @Query("SELECT d FROM DebtEntity d WHERE d.debtBookId = :id AND d.visible = TRUE ")
+    List<DebtEntity> findAllByDebtBookId(@Param("id") String id);
 }

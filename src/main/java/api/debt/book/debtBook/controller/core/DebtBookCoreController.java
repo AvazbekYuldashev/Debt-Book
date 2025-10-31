@@ -1,6 +1,7 @@
 package api.debt.book.debtBook.controller.core;
 
 import api.debt.book.app.enums.AppLanguage;
+import api.debt.book.debtBook.dto.DebtBookCalculatorDTO;
 import api.debt.book.debtBook.dto.DebtBookCreatedDTO;
 import api.debt.book.debtBook.dto.DebtBookResponseDTO;
 import api.debt.book.debtBook.service.core.DebtBookCoreService;
@@ -19,13 +20,13 @@ public class DebtBookCoreController {
 
     @PostMapping("")
     public ResponseEntity<DebtBookResponseDTO> create(@RequestBody DebtBookCreatedDTO dto,
-                                                    @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage lang) {
+                                                        @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage lang) {
         return ResponseEntity.ok().body(debtBookCoreService.create(dto, lang));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<DebtBookResponseDTO> findById(@PathVariable String id,
-                                                    @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage lang) {
+                                                        @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage lang) {
         return ResponseEntity.ok().body(debtBookCoreService.getById(id, lang));
     }
 
@@ -34,6 +35,12 @@ public class DebtBookCoreController {
                                                                  @RequestParam(value = "size", defaultValue = "15") int size,
                                                                  @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage lang){
         return ResponseEntity.ok().body(debtBookCoreService.getAll(getCurrentPage(page), size, lang));
+    }
+
+    @GetMapping("/calculator/{id}")
+    public ResponseEntity<DebtBookCalculatorDTO> calculator(@PathVariable String id,
+                                                            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage lang) {
+        return ResponseEntity.ok().body(debtBookCoreService.calculator(id, lang));
     }
 
 

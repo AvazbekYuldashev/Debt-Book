@@ -2,6 +2,7 @@ package api.debt.book.debtBook.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -13,7 +14,7 @@ public class DebtBookResponseDTO {
     private LocalDateTime createdDate;
     private Boolean visible;
 
-    private Double amount;
+    private BigDecimal amount;
     private String debtorId;
     private String creditorId;
 

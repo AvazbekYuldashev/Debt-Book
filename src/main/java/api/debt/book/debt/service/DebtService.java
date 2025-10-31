@@ -4,6 +4,8 @@ import api.debt.book.app.dto.AppResponse;
 import api.debt.book.app.enums.AppLanguage;
 import api.debt.book.app.service.ResourceBoundleService;
 import api.debt.book.app.util.AppResponseUtil;
+import api.debt.book.credit.dto.core.CreditResponseDTO;
+import api.debt.book.credit.entity.CreditEntity;
 import api.debt.book.debt.dto.core.DebtResponseDTO;
 import api.debt.book.debt.entity.DebtEntity;
 import api.debt.book.debt.mapper.DebtMapper;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -50,5 +53,20 @@ public class DebtService {
     public AppResponse<String> updateCreditorCheck(String id, AppLanguage lang) {
         int effectedRow = debtRepository.updateCreditorCheck(id);
         return AppResponseUtil.chek(effectedRow > 0);
+    }
+
+    public AppResponse<String> updateDebtorCheck(String id, AppLanguage lang) {
+        int effectedRow = debtRepository.updateDebtorCheck(id);
+        return AppResponseUtil.chek(effectedRow > 0);
+    }
+
+
+    public List<DebtResponseDTO> findAllByDebtBookId(String id, AppLanguage lang) {
+        List<DebtEntity> entities = debtRepository.findAllByDebtBookId(id);
+        List<DebtResponseDTO> response = new ArrayList<>();
+        for (DebtEntity entity : entities) {
+            response.add(debtMapper.toResponseDTO(entity));
+        }
+        return response;
     }
 }

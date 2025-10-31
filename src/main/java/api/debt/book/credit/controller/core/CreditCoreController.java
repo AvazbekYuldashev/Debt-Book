@@ -1,5 +1,6 @@
 package api.debt.book.credit.controller.core;
 
+import api.debt.book.app.dto.AppResponse;
 import api.debt.book.app.enums.AppLanguage;
 import api.debt.book.credit.dto.core.CreditResponseDTO;
 import api.debt.book.credit.service.core.CreditCoreService;
@@ -28,8 +29,17 @@ public class CreditCoreController {
                                                                  @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage lang){
         return ResponseEntity.ok().body(creditCoreService.getAll(getCurrentPage(page), size, lang));
     }
+    @PatchMapping("/creditor/{id}")
+    public ResponseEntity<AppResponse<String>> checkCreditor(@PathVariable String id,
+                                                             @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage lang) {
+        return ResponseEntity.ok().body(creditCoreService.checkCreditor(id, lang));
+    }
 
-
+    @PatchMapping("/debtor/{id}")
+    public ResponseEntity<AppResponse<String>> checkDebtor(@PathVariable String id,
+                                                           @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage lang) {
+        return ResponseEntity.ok().body(creditCoreService.checkDebtor(id, lang));
+    }
 
 
     public static int getCurrentPage(Integer page) {

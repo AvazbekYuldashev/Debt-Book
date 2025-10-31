@@ -1,6 +1,7 @@
 package api.debt.book.debt.controller.core;
 
 
+import api.debt.book.app.dto.AppResponse;
 import api.debt.book.app.enums.AppLanguage;
 import api.debt.book.debt.dto.core.DebtCreatedDTO;
 import api.debt.book.debt.dto.core.DebtResponseDTO;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/core/debt")
-@PreAuthorize("hasAnyRole('OWNER','ADMIN', 'DEBTOR', 'CREDITOR')")
+@PreAuthorize("hasAnyRole('OWNER','ADMIN', 'USER')")
 public class DebtCoreController {
     @Autowired
     private DebtCoreService debtCoreService;
@@ -35,6 +36,18 @@ public class DebtCoreController {
                                                                  @RequestParam(value = "size", defaultValue = "15") int size,
                                                                  @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage lang){
         return ResponseEntity.ok().body(debtCoreService.getAll(getCurrentPage(page), size, lang));
+    }
+
+    @PatchMapping("/creditor/{id}")
+    public ResponseEntity<AppResponse<String>> checkCreditor(@PathVariable String id,
+                                                             @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage lang) {
+        return ResponseEntity.ok().body(debtCoreService.checkCreditor(id, lang));
+    }
+
+    @PatchMapping("/debtor/{id}")
+    public ResponseEntity<AppResponse<String>> checkDebtor(@PathVariable String id,
+                                                           @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage lang) {
+        return ResponseEntity.ok().body(debtCoreService.checkDebtor(id, lang));
     }
 
 
