@@ -12,6 +12,7 @@ import api.debt.book.debt.dto.core.DebtResponseDTO;
 import api.debt.book.debt.entity.DebtEntity;
 import api.debt.book.security.util.SpringSecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.stereotype.Service;
@@ -61,5 +62,13 @@ public class CreditCoreService extends CreditService {
         return updateDebtorCheck(id, lang);
     }
 
+
+    public Page<CreditResponseDTO> getAllByCreditorId(String id, int page, int size, AppLanguage lang) {
+        return findAllByCreditorId(id, page, size, lang);
+    }
+
+    public Page<CreditResponseDTO> getAllByDebtorId(String id, int page, int size, AppLanguage lang) {
+        return findAllByDebtorId(id, page, size, lang);
+    }
 
 }

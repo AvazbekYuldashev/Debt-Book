@@ -17,11 +17,18 @@ import java.util.Optional;
 public interface CreditRepository extends JpaRepository<CreditEntity, String> {
     @Query("SELECT c FROM CreditEntity c WHERE c.id = :id AND c.visible = TRUE")
     Optional<CreditEntity> findByIdAndVisibleTrue(@Param("id")String id);
+
     @Query("SELECT c FROM CreditEntity c WHERE c.visible = TRUE")
     Page<CreditEntity> findAllPage(PageRequest of);
 
-    @Query("SELECT c FROM CreditEntity c WHERE c.creditorId = :creditorId AND c.visible = TRUE")
-    Page<CreditEntity> findByCreditorId(@Param("creditorId")String creditorId, PageRequest of);
+    @Query("SELECT c FROM CreditEntity c WHERE c.debtBookId = :id AND c.visible = TRUE ")
+    List<CreditEntity> findAllByDebtBookId(@Param("id") String id);
+
+    @Query("SELECT c FROM CreditEntity c WHERE c.creditorId = :id AND c.visible = TRUE ")
+    Page<CreditEntity> findAllByCreditorId(@Param("id") String id, PageRequest of);
+
+    @Query("SELECT c FROM CreditEntity c WHERE c.debtorId = :id AND c.visible = TRUE ")
+    Page<CreditEntity> findAllByDebtorId(@Param("id") String id, PageRequest of);
 
     @Modifying
     @Transactional
@@ -38,6 +45,4 @@ public interface CreditRepository extends JpaRepository<CreditEntity, String> {
     @Query("UPDATE CreditEntity c SET c.visible = FALSE WHERE c.id = :id")
     int deleteSoft(@Param("id") String id);
 
-    @Query("SELECT c FROM CreditEntity c WHERE c.debtBookId = :id AND c.visible = TRUE ")
-    List<CreditEntity> findAllByDebtBookId(@Param("id") String id);
 }

@@ -2,6 +2,7 @@ package api.debt.book.debt.service.core;
 
 import api.debt.book.app.dto.AppResponse;
 import api.debt.book.app.enums.AppLanguage;
+import api.debt.book.credit.dto.core.CreditResponseDTO;
 import api.debt.book.debt.dto.core.DebtCreatedDTO;
 import api.debt.book.debt.dto.core.DebtResponseDTO;
 import api.debt.book.debt.entity.DebtEntity;
@@ -9,6 +10,7 @@ import api.debt.book.debt.mapper.DebtMapper;
 import api.debt.book.debt.service.DebtService;
 import api.debt.book.security.util.SpringSecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.stereotype.Service;
@@ -29,7 +31,7 @@ public class DebtCoreService extends DebtService {
         return debtMapper.toResponseDTO(findById(id, lang));
     }
 
-    public PageImpl<DebtResponseDTO> getAll(int page, int size, AppLanguage lang) {
+    public Page<DebtResponseDTO> getAll(int page, int size, AppLanguage lang) {
         return findAll(page, size, lang);
     }
 
@@ -55,4 +57,11 @@ public class DebtCoreService extends DebtService {
         return updateDebtorCheck(id, lang);
     }
 
+    public Page<DebtResponseDTO> getAllByCreditorId(String id, int page, int size, AppLanguage lang) {
+        return findAllByCreditorId(id, page, size, lang);
+    }
+
+    public Page<DebtResponseDTO> getAllByDebtorId(String id, int page, int size, AppLanguage lang) {
+        return findAllByDebtorId(id, page, size, lang);
+    }
 }

@@ -20,7 +20,7 @@ public interface DebtRepository extends JpaRepository<DebtEntity, String> {
     Optional<DebtEntity> findByIdAndVisibleTrue(String id);
 
     @Query("SELECT d FROM DebtEntity d WHERE d.visible = TRUE")
-    Page<DebtEntity> findAllPage(PageRequest of);
+    Page<DebtEntity> findAllByVisibleTrue(PageRequest of);
 
     @Modifying
     @Transactional
@@ -34,4 +34,10 @@ public interface DebtRepository extends JpaRepository<DebtEntity, String> {
 
     @Query("SELECT d FROM DebtEntity d WHERE d.debtBookId = :id AND d.visible = TRUE ")
     List<DebtEntity> findAllByDebtBookId(@Param("id") String id);
+
+    @Query("SELECT d FROM DebtEntity d WHERE d.debtorId = :id AND d.visible = TRUE ")
+    Page<DebtEntity> findAllByDebtorId(@Param("id") String id, PageRequest of);
+
+    @Query("SELECT d FROM DebtEntity d WHERE d.creditorId = :id AND d.visible = TRUE ")
+    Page<DebtEntity> findAllByCreditorId(@Param("id") String id, PageRequest of);
 }

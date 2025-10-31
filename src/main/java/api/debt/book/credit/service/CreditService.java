@@ -80,4 +80,22 @@ public class CreditService {
         }
         return response;
     }
+
+    public Page<CreditResponseDTO> findAllByCreditorId(String id, int page, int size, AppLanguage lang) {
+        Sort sort = Sort.by("createdDate").descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        Page<CreditEntity> pageObj = creditRepository.findAllByCreditorId(id, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+        List<CreditResponseDTO> response = pageObj.getContent().stream().map(creditMapper::toResponseDTO).collect(Collectors.toList());
+        long total = pageObj.getTotalElements();
+        return new PageImpl<>(response, pageable, total);
+    }
+
+    public Page<CreditResponseDTO> findAllByDebtorId(String id, int page, int size, AppLanguage lang) {
+        Sort sort = Sort.by("createdDate").descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        Page<CreditEntity> pageObj = creditRepository.findAllByDebtorId(id, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+        List<CreditResponseDTO> response = pageObj.getContent().stream().map(creditMapper::toResponseDTO).collect(Collectors.toList());
+        long total = pageObj.getTotalElements();
+        return new PageImpl<>(response, pageable, total);
+    }
 }
