@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/core/credit")
-@PreAuthorize("hasAnyRole('OWNER','ADMIN', 'DEBTOR', 'CREDITOR')")
+@PreAuthorize("hasAnyRole('OWNER','ADMIN', 'USER')")
 public class CreditCoreController {
     @Autowired
     private CreditCoreService creditCoreService;
